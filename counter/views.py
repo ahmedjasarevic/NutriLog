@@ -4,6 +4,12 @@ from django.http import JsonResponse
 import requests
 import json
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import CalorieData
+from django.http import HttpResponseBadRequest
+from datetime import datetime
+from django.contrib import messages
+
 
 def home(request):
     if request.method == 'POST':
@@ -34,3 +40,44 @@ def home(request):
             return render(request, 'results.html', {'api': api})
     else:
         return render(request, 'home.html', {'query': 'Enter a valid query'})
+
+
+
+@login_required
+def save_calorie_data(request):
+    if request.method == 'POST':
+
+        food_name = request.POST.get('food_name')
+        current_date = datetime.now().strftime('%Y-%m-%d')
+        calories = request.POST.get('calories')
+        carbohydrates_total_g = request.POST.get('carbohydrates_total_g')
+        cholesterol_mg = request.POST.get('cholesterol_mg')
+        fat_saturated_g = request.POST.get('fat_saturated_g')
+        fat_total_g = request.POST.get('fat_total_g')
+        fiber_g = request.POST.get('fiber_g')
+        potassium_mg = request.POST.get('potassium_mg')
+        protein_g = request.POST.get('protein_g')
+        sodium_mg = request.POST.get('sodium_mg')
+        sugar_g = request.POST.get('sugar_g')
+
+
+        calorie_data = CalorieData.objects.create(
+            user=request.user,
+            food_name=food_name,
+            date=current_date,
+            calories=calories,
+            carbohydrates_total_g=carbohydrates_total_g,
+            cholesterol_mg=cholesterol_mg,
+            fat_saturated_g=fat_saturated_g,
+            fat_total_g=fat_total_g,
+            fiber_g=fiber_g,
+            potassium_mg=potassium_mg,
+            protein_g=protein_g,
+            sodium_mg=sodium_mg,
+            sugar_g=sugar_g
+        )
+        messages.success(request, 'Calorie data saved successfully.')
+        return redirect('home')  
+    else:
+        # Handle invalid request method
+        return HttpResponseBadRequest("Invalid request method")

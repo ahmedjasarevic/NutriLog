@@ -44,6 +44,26 @@
                             <div class="alert alert-warning">Oh no! something went wrong. Please try again in sometime.</div>
                         {% else %}
                             <h1>{{ api.0.name | capfirst }} has a total of <strong>{{ api.0.calories }} Calories</strong></h1>
+
+                                    <form method="POST" action="{% url 'save_calorie_data' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="food_name" value="{{ api.0.name }}">
+                                        <input type="hidden" name="date" value="{{ today|date:'Y-m-d' }}">
+                                        <input type="hidden" name="calories" value="{{ api.0.calories }}">
+                                        <input type="hidden" name="carbohydrates_total_g" value="{{ api.0.carbohydrates_total_g }}">
+                                        <input type="hidden" name="cholesterol_mg" value="{{ api.0.cholesterol_mg }}">
+                                        <input type="hidden" name="fat_saturated_g" value="{{ api.0.fat_saturated_g }}">
+                                        <input type="hidden" name="fat_total_g" value="{{ api.0.fat_total_g }}">
+                                        <input type="hidden" name="fiber_g" value="{{ api.0.fiber_g }}">
+                                        <input type="hidden" name="potassium_mg" value="{{ api.0.potassium_mg }}">
+                                        <input type="hidden" name="protein_g" value="{{ api.0.protein_g }}">
+                                        <input type="hidden" name="sodium_mg" value="{{ api.0.sodium_mg }}">
+                                        <input type="hidden" name="sugar_g" value="{{ api.0.sugar_g }}">
+                                        <!-- Add other hidden fields for the data you want to save -->
+                                        <button class="btn whoop" type="submit" id="button-addon2"> Add this food to your profile</button>
+                                    </form>
+                             
+                                
                             {% if api.0.calories > 200 %}
                                 <img src="{% static 'images/shocked.png' %}" class="img-responsive" />
                             {% endif %}

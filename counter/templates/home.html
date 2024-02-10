@@ -11,42 +11,50 @@
     <link rel="icon" type="image/x-icon" href="{% static 'images/fav2.png' %}">
 </head>
 <body>
+   
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6 p-0 d-flex align-items-center justify-content-center" style="background-color: white; height: 100vh;">
+        {% if messages %}
+        <div id="success-alert" class="alert alert-success" role="alert">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+        <div class="row" style="height: 100vh;">
+            <div class="col-md-6 p-0 d-flex align-items-center justify-content-center" style="background-color: white;">
                 <img src="{% static 'images/meal2.png' %}" class="img-fluid" style="max-height: 90vh; max-width: 100%;" />
             </div>
-            <div class="col-md-6" style="background-color: #4CAF50; height: 100vh;">
-                <!-- Modified section in your template -->
-          <div class="text-end mt-3">
-            {% if user.is_authenticated %}
-                <p class="text-white">Hello, {{ user.username }}</p>
-                <form method="POST" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary" style="background-color: #319b54; border: none;">Logout</button>
-                </form>
-            {% else %}
-                <button type="button" class="btn btn-primary" style="background-color: #319b54; border: none;" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-                <button type="button" class="btn btn-primary ms-2" style="background-color: #319b54; border: none;" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
-            {% endif %}
-          </div>
-
-                <div class="d-flex flex-column justify-content-center align-items-center text-center text-white h-100">
+            <div class="col-md-6 d-flex flex-column justify-content-start align-items-stretch" style="background-color: #4CAF50;">
+                <div class="d-flex justify-content-between align-items-start mt-3">
+                    <div></div>
+                    <div>
+                        {% if user.is_authenticated %}
+                            <p class="text-white">Hello, {{ user.username }}</p>
+                            <form method="POST" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary" style="background-color: #319b54; border: none;">Logout</button>
+                            </form>
+                        {% else %}
+                            <button type="button" class="btn btn-primary" style="background-color: #319b54; border: none;" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                            <button type="button" class="btn btn-primary ms-2" style="background-color: #319b54; border: none;" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                        {% endif %}
+                    </div>
+                </div>
+    
+                <div class="d-flex flex-column justify-content-center align-items-center text-center text-white flex-grow-1">
+                    <img src="{% static 'images/Logo.png' %}" class="img-responsive logo mb-3" />
                     <form method="POST" class="w-75">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <img src="{% static 'images/Logo.png' %}" class="img-responsive logo" />
-                        </div>
-                        <div class="input-group input-group-lg">
                             <input type="text" name="query" class="form-control inputstyle" style="height:70px;" placeholder="Search for calories in your food..." required>
-                            <button class="btn whoop" type="submit" style="background-color: #319b54; color:white;">Find calories</button>
                         </div>
+                        <button class="btn whoop" type="submit" style="background-color: #319b54; color:white;">Find calories</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <!-- Login Modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -74,5 +82,11 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Automatically hide the success alert after 2 seconds
+        setTimeout(function() {
+            document.getElementById('success-alert').style.display = 'none';
+        }, 2000); // 2000 milliseconds = 2 seconds
+    </script>
 </body>
 </html>
