@@ -12,29 +12,29 @@
     />
     <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css" />
     <title>Foodie Calorie Finder</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/fav2.png' %}">
   </head>
   <body>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6 p-0" style="background-color: white;">
-                <img src="{% static 'images/meal2.png' %}" class="img-fluid" />
-            </div>
-            <div class="col-md-6 d-flex align-items-center justify-content-center" style="background-color: #4CAF50;">
-                <form method="POST" class="w-75 text-center text-white">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <img src="{% static 'images/Logo.png' %}" class="img-responsive logo" />
-                    </div>
-                    <div class="input-group input-group-lg">
-                        <input type="text" name="query" class="form-control inputstyle" placeholder="Search for calories in your food..." required>
-                        <button class="btn whoop" type="submit" style="background-color: #319b54;">Find calories</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    
-    
+      <div class="row">
+          <div class="col-md-6 p-0 d-flex align-items-center justify-content-center" style="background-color: white; height: 100vh;">
+              <img src="{% static 'images/meal2.png' %}" class="img-fluid" style="max-height: 90vh; max-width: 100%;" />
+          </div>
+          <div class="col-md-6 d-flex align-items-center justify-content-center" style="background-color: #4CAF50; height: 100vh;">
+              <form method="POST" class="w-75 text-center text-white">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                      <img src="{% static 'images/Logo.png' %}" class="img-responsive logo" />
+                  </div>
+                  <div class="input-group input-group-lg">
+                      <input type="text" name="query" class="form-control inputstyle" placeholder="Search for calories in your food..." required>
+                      <button class="btn whoop" type="submit" style="background-color: #319b54;">Find calories</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+  
     
     
   </body>
