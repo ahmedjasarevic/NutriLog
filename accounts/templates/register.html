@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Additional styles -->
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+        }
+
+        h2 {
+            color: #319b54; /* Green color for headings */
+            text-align: center;
+        }
+
+        .btn {
+            background-color: #319b54; /* Green background color for buttons */
+            border-color: #319b54; /* Green border color for buttons */
+        }
+        .btn:hover {
+            background-color: #287f3e; /* Darker green color on hover for buttons */
+            border-color: #287f3e; /* Darker green border color on hover for buttons */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <div id="registrationAlert" class="alert" role="alert" style="display: none;"></div>
+        <form method="POST" id="registrationForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password1" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label for="password2">Confirm Password</label>
+                <input type="password" class="form-control" id="password2" name="password2" placeholder="Password">
+            </div>
+            <button type="button" id="registerButton" class="btn btn-primary btn-block">Register</button>
+        </form>
+        
+        
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#registerButton').click(function() {
+                var formData = $('#registrationForm').serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "register" %}',
+                    data: formData,
+                    success: function(response) {
+                        // Display success alert
+                        $('#registrationAlert').removeClass('alert-danger').addClass('alert-success').text(response.message).show();
+                        // Optionally, redirect to home page after registration
+                        window.location.href = '/home';
+                    },
+                    error: function(xhr, status, error) {
+                        // Display error alert
+                        var errors = xhr.responseJSON.errors;
+                        var errorMessage = '';
+                        for (var field in errors) {
+                            errorMessage += errors[field][0] + '\n';
+                        }
+                        $('#registrationAlert').removeClass('alert-success').addClass('alert-danger').text(errorMessage).show();
+                    }
+                });
+            });
+        });
+    </script>
+    
+
+</body>
+</html>

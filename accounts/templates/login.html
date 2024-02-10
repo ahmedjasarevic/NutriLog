@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Additional styles -->
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            border-radius: 10px;
+            background-color: #fff; /* White container background */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Box shadow for container */
+        }
+        h2 {
+            color: #319b54; /* Green color for headings */
+            text-align: center;
+        }
+        .form-control {
+            border-color: #319b54; /* Green border color for form inputs */
+        }
+        .btn {
+            background-color: #319b54; /* Green background color for buttons */
+            border-color: #319b54; /* Green border color for buttons */
+        }
+        .btn:hover {
+            background-color: #287f3e; /* Darker green color on hover for buttons */
+            border-color: #287f3e; /* Darker green border color on hover for buttons */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <div id="loginAlert" class="alert" role="alert" style="display: none;"></div>
+        <form method="POST" id="loginForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            </div>
+            <button type="button" id="loginButton" class="btn btn-primary btn-block">Login</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#loginButton').click(function() {
+                var formData = $('#loginForm').serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "login" %}',
+                    data: formData,
+                    success: function(response) {
+                        // Redirect to home page after successful login
+                        window.location.href = '/';
+                    },
+                    error: function(xhr, status, error) {
+                        // Display error alert
+                        var errorMessage = xhr.responseJSON.message;
+                        $('#loginAlert').removeClass('alert-success').addClass('alert-danger').text(errorMessage).show();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
