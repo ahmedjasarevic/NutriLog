@@ -60,7 +60,7 @@
                 var formData = $('#registrationForm').serialize();
                 $.ajax({
                     type: 'POST',
-                    url: '{% url "register" %}',
+                    url: '{% url "accounts:register" %}',
                     data: formData,
                     success: function(response) {
                         // Display success alert

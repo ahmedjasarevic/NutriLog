@@ -27,13 +27,17 @@
             <div class="col-md-6 d-flex flex-column justify-content-start align-items-stretch" style="background-color: #4CAF50;">
                 <div class="d-flex justify-content-between align-items-start mt-3">
                     <div></div>
-                    <div>
+                    <div class="d-flex align-items-center">
                         {% if user.is_authenticated %}
-                            <p class="text-white">Hello, {{ user.username }}</p>
-                            <form method="POST" action="{% url 'logout' %}">
+                            <form method="POST" action="{% url 'accounts:logout_user' %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-primary" style="background-color: #319b54; border: none;">Logout</button>
+                                <button type="submit" class="btn btn-primary me-3" style="background-color: #319b54; border: none;">Logout</button>
                             </form>
+                            <form method="POST" action="{% url 'accounts:profile_view' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary" style="background-color: #319b54; border: none;">Profile</button>
+                            </form>
+                            <p class="text-white mt-3 ms-2">Hello, {{ user.username }}</p>
                         {% else %}
                             <button type="button" class="btn btn-primary" style="background-color: #319b54; border: none;" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
                             <button type="button" class="btn btn-primary ms-2" style="background-color: #319b54; border: none;" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>

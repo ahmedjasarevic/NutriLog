@@ -59,7 +59,7 @@
                 var formData = $('#loginForm').serialize();
                 $.ajax({
                     type: 'POST',
-                    url: '{% url "login" %}',
+                    url: '{% url "accounts:login_user" %}',
                     data: formData,
                     success: function(response) {
                         // Redirect to home page after successful login
