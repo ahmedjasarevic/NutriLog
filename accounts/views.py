@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 
 
+from django.utils import timezone
+from counter.models import CalorieData
 from django.contrib.auth.models import User
 
 
@@ -50,3 +52,22 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('home')
+
+from django.utils import timezone
+
+def profile_view(request):
+    user_id = request.user.id
+    current_date = timezone.now().date()
+
+    calorie_data = CalorieData.objects.filter(user_id=user_id, date=current_date)
+    total_protein = sum(data.protein_g for data in calorie_data)
+    total_calories = sum(data.calories for data in calorie_data)
+    total_sugar = sum(data.sugar_g for data in calorie_data)
+    
+    context = {
+        'calorie_data': calorie_data,
+        'total_protein': total_protein,
+        'total_calories': total_calories,
+        'total_sugar': total_sugar
+    }
+    return render(request, 'profile.html', context)
